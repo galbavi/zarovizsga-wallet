@@ -2,8 +2,10 @@ import { Delete} from "@mui/icons-material";
 import { Button, Card, CardActions, CardContent, Grid2, IconButton, Typography } from "@mui/material"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export const WalletCard = ({ wallet, onDelete }) => {
+    const {sessionUser} = useAuth();
     const navigate = useNavigate();
     const [raised, setRaised] = useState(false);
 
@@ -11,6 +13,7 @@ export const WalletCard = ({ wallet, onDelete }) => {
         <Card raised={raised} onMouseEnter={() => { setRaised(true) }} onMouseLeave={() => { setRaised(false) }} >
             <CardContent>
                 <Typography variant="h5">{wallet.name}</Typography>
+                {sessionUser.id !== wallet.created_by.id && <Typography variant="subtitle1">{wallet.created_by.name}</Typography>}
                 <Typography mt={3} variant="h4" color={ wallet.balance < 0 ? "error" : "success"}>{wallet.balance}</Typography>
             </CardContent>
             <CardActions sx={{justifyContent : "right"}}>
