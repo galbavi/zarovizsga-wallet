@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { Box, Container, Grid2 } from "@mui/material";
+import { Container, Grid2 } from "@mui/material";
 import { MyWalletList } from "./MyWalletList";
 import { SharedWalletList } from "./SharedWalletList";
 
