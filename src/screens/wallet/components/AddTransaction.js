@@ -1,6 +1,19 @@
 import { Button } from "@mui/material";
+import { MODALS, useModals } from "../../../hooks/useModal";
 
-export const AddTransaction = ({ onAddNewTransaction }) => {
-    return (
-        <Button variant={"contained"} color="success" onClick={() => { onAddNewTransaction() }}>Add new Transaction</Button>);
-}
+export const AddTransaction = ({ walletId, onAddNewTransaction }) => {
+  const { showModal } = useModals();
+
+  return (
+    <Button
+      variant={"contained"}
+      color="success"
+      onClick={() => {
+        showModal(MODALS.ADD_TRANSACTION, walletId, onAddNewTransaction);
+        onAddNewTransaction();
+      }}
+    >
+      Add new Transaction
+    </Button>
+  );
+};

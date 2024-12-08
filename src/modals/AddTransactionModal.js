@@ -4,34 +4,36 @@ import { TextField } from "formik-mui";
 import { SubmitButton } from "../components/SubmitButton";
 import { AXIOS_METHOD, doApiCall } from "../hooks/useApi";
 
-const validateName = (name) => {
-  if (!name) {
-    return "Name is required";
+const validateTitle = (title) => {
+  if (!title) {
+    return "Title is required";
   }
 };
 
-const validateDescription = (description) => {
-  if (!description) {
-    return "Description is required";
+const validateAmount = (amount) => {
+  if (!amount || isNaN(amount) || amount === 0) {
+    return "Amount is required";
   }
 };
 
-export const AddWalletModal = ({
+export const AddTransactionModal = ({
   onClose,
+  walletId,
   OnSuccessful: onSuccessful = false,
 }) => {
   return (
     <Dialog open={true} onClose={onClose}>
-      <DialogTitle>New Wallet</DialogTitle>
+      <DialogTitle>New Transaction</DialogTitle>
       <DialogContent>
         <br />
         <Formik
-          initialValues={{}}
+          initialValues={{ wallet_id: walletId, title: "", amount: 0 }}
           onSubmit={(value, { setFieldError, setSubmitting }) => {
             setSubmitting(true);
+            console.log(value);
             doApiCall(
               AXIOS_METHOD.PUT,
-              "/wallet",
+              "/transactions",
               (_unusedNewWallet) => {
                 setSubmitting(false);
                 if (onSuccessful !== false) {
@@ -41,7 +43,7 @@ export const AddWalletModal = ({
                 onClose();
               },
               (apiError) => {
-                setFieldError("name", apiError);
+                setFieldError("title", apiError);
                 setSubmitting(false);
               },
               value
@@ -53,27 +55,25 @@ export const AddWalletModal = ({
               <Grid2 size={{ xs: 12 }}>
                 <Field
                   component={TextField}
-                  name="name"
-                  label="Name"
+                  name="title"
+                  label="Title"
                   type="text"
                   fullWidth
-                  validate={validateName}
+                  validate={validateTitle}
                 />
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
                 <Field
                   component={TextField}
-                  name="description"
-                  label="Description"
-                  type="text"
-                  multiline
+                  name="amount"
+                  label="Amount"
+                  type="number"
                   fullWidth
-                  minRows={8}
-                  validate={validateDescription}
+                  validate={validateAmount}
                 />
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
-                <Field component={SubmitButton} label={"Add new wallet"} />
+                <Field component={SubmitButton} label={"Add new transaction"} />
               </Grid2>
             </Grid2>
           </Form>
