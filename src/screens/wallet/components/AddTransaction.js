@@ -9,7 +9,7 @@ export const AddTransaction = ({ walletId, onAddNewTransaction }) => {
       variant={"contained"}
       color="success"
       onClick={() => {
-        showModal(MODALS.ADD_TRANSACTION, walletId, onAddNewTransaction);
+        showModal(MODALS.TRANSACTION, walletId, onAddNewTransaction);
         onAddNewTransaction();
       }}
     >

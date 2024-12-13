@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useState } from "react";
 import { ConfirmModal } from "../modals/ConfirmModal";
 import { ErrorModal } from "../modals/ErrorModal";
-import { AddWalletModal } from "../modals/AddWalletModal";
-import { AddTransactionModal } from "../modals/AddTransactionModal";
+import { WalletModal } from "../modals/WalletModal";
+import { TransactionModal } from "../modals/TransactionModal";
 import { ShareModal } from "../modals/ShareModal";
 
 const ModalContext = React.createContext();
@@ -12,8 +12,8 @@ export const MODALS = {
   NONE: "NONE",
   CONFIRM: "CONFIRM",
   ERROR: "ERROR",
-  ADD_WALLET: "ADD_WALLET",
-  ADD_TRANSACTION: "ADD_TRANSACTION",
+  WALLET: "WALLET",
+  TRANSACTION: "TRANSACTION",
   SHARE: "SHARE",
 };
 
@@ -27,11 +27,11 @@ export const Modals = () => {
             return <ConfirmModal onClose={onClose} {...context.modalProps} />;
           case MODALS.ERROR:
             return <ErrorModal onClose={onClose} {...context.modalProps} />;
-          case MODALS.ADD_WALLET:
-            return <AddWalletModal onClose={onClose} {...context.modalProps} />;
-          case MODALS.ADD_TRANSACTION:
+          case MODALS.WALLET:
+            return <WalletModal onClose={onClose} {...context.modalProps} />;
+          case MODALS.TRANSACTION:
             return (
-              <AddTransactionModal onClose={onClose} {...context.modalProps} />
+              <TransactionModal onClose={onClose} {...context.modalProps} />
             );
           case MODALS.SHARE:
             return <ShareModal onClose={onClose} {...context.modalProps} />;

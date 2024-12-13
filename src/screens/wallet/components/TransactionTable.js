@@ -1,4 +1,4 @@
-import { Delete } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import {
   Button,
   IconButton,
@@ -31,6 +31,7 @@ export const TransactionTable = ({
   onLoadMore,
   loading,
   onDeleteTransaction,
+  onModifyTransaction,
 }) => {
   const { showModal } = useModals();
 
@@ -50,7 +51,7 @@ export const TransactionTable = ({
           <TableCell>
             <Typography variant="h6">Time</Typography>
           </TableCell>
-          <TableCell colSpan={2}>
+          <TableCell colSpan={3}>
             <Typography variant="h6">Amount</Typography>
           </TableCell>
         </TableRow>
@@ -68,6 +69,16 @@ export const TransactionTable = ({
                 {formatterToTimeString.format(new Date(transaction.created_at))}
               </TableCell>
               <TableCell>{transaction.amount}</TableCell>
+              <TableCell align="right">
+                <IconButton size="small">
+                  <Edit
+                    color={"primary"}
+                    onClick={() => {
+                      onModifyTransaction(transaction);
+                    }}
+                  />
+                </IconButton>
+              </TableCell>
               <TableCell align="right">
                 <IconButton size="small">
                   <Delete
@@ -88,7 +99,7 @@ export const TransactionTable = ({
           ))}
         {loading === true && (
           <TableRow>
-            <TableCell sx={{ borderWidth: 0 }} colSpan={5}>
+            <TableCell sx={{ borderWidth: 0 }} colSpan={6}>
               <LinearProgress />
             </TableCell>
           </TableRow>
@@ -96,7 +107,7 @@ export const TransactionTable = ({
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell sx={{ borderWidth: 0 }} colSpan={6}>
+          <TableCell sx={{ borderWidth: 0 }} colSpan={7}>
             {hasMore && !loading && (
               <Button variant="contained" onClick={onLoadMore} fullWidth>
                 Load more

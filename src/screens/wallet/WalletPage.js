@@ -56,7 +56,7 @@ export const WalletPage = () => {
   return (
     <Container>
       <Grid2 mt={2} container spacing={1}>
-        <Grid2 size={{ xs: 7 }}>
+        <Grid2 size={{ xs: 6 }}>
           <Typography variant="h3">{walletResult.name}</Typography>
         </Grid2>
         <Grid2 size={{ xs: 3 }} alignContent={"center"} justifyItems={"right"}>
@@ -65,11 +65,12 @@ export const WalletPage = () => {
           </Typography>
         </Grid2>
         <Grid2
-          size={{ xs: 1 }} alignContent={"center"} 
+          size={{ xs: 1 }} alignContent={"center"}
         >
           {walletResult.created_by.id === sessionUser.id && <Button
             variant="contained"
             color="primary"
+            fullWidth
             onClick={() => {
               showModal(MODALS.SHARE, {
                 walletId: walletResult.id,
@@ -80,10 +81,28 @@ export const WalletPage = () => {
             Share
           </Button>}
         </Grid2>
+        <Grid2
+          size={{ xs: 1 }} alignContent={"center"}
+        >
+          {walletResult.created_by.id === sessionUser.id && <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={() => {
+              showModal(MODALS.WALLET, {
+                wallet: walletResult,
+                onSuccessful: refreshWallet,
+              });
+            }}
+          >
+            Edit
+          </Button>}
+        </Grid2>
         <Grid2 size={{ xs: 1 }} alignContent={"center"} justifyItems={"right"}>
           {walletResult.created_by.id === sessionUser.id && <Button
             variant="contained"
             color="error"
+            fullWidth
             onClick={() => {
               showModal(MODALS.CONFIRM, {
                 onConfirmed: () => {
@@ -103,6 +122,9 @@ export const WalletPage = () => {
             variant="fullWidth"
             aria-hidden="true"
           />
+        </Grid2>
+        <Grid2 size={{ xs: 12 }}>
+          <Typography variant="body1">{walletResult.description}</Typography>
         </Grid2>
         <Grid2 size={{ xs: 6 }} mt={2}>
           <Typography variant="h5">Balance: {walletResult.balance}</Typography>

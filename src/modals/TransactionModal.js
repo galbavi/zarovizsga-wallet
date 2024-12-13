@@ -16,10 +16,11 @@ const validateAmount = (amount) => {
   }
 };
 
-export const AddTransactionModal = ({
+export const TransactionModal = ({
   onClose,
   walletId,
-  OnSuccessful: onSuccessful = false,
+  onSuccessful = false,
+  transaction = false,
 }) => {
   return (
     <Dialog open={true} onClose={onClose}>
@@ -27,27 +28,50 @@ export const AddTransactionModal = ({
       <DialogContent>
         <br />
         <Formik
-          initialValues={{ wallet_id: walletId, title: "", amount: 0 }}
+          initialValues={ transaction !== false ? {wallet_id: walletId, title : transaction.title, amount : transaction.amount} : { wallet_id: walletId, title: "", amount: 0 }}
           onSubmit={(value, { setFieldError, setSubmitting }) => {
             setSubmitting(true);
-            console.log(value);
-            doApiCall(
-              AXIOS_METHOD.PUT,
-              "/transactions",
-              (_unusedNewWallet) => {
-                setSubmitting(false);
-                if (onSuccessful !== false) {
-                  onSuccessful();
-                }
+            if (transaction === false) {
+              doApiCall(
+                AXIOS_METHOD.PUT,
+                "/transactions",
+                (_unusedNewWallet) => {
+                  setSubmitting(false);
+                  if (onSuccessful !== false) {
+                    onSuccessful();
+                  }
 
-                onClose();
-              },
-              (apiError) => {
-                setFieldError("title", apiError);
-                setSubmitting(false);
-              },
-              value
-            );
+                  onClose();
+                },
+                (apiError) => {
+                  setFieldError("title", apiError);
+                  setSubmitting(false);
+                },
+                value
+              );
+            }
+            else {
+              doApiCall(
+                AXIOS_METHOD.PATCH,
+                `/transaction/${transaction.id}`,
+                (_unusedNewWallet) => {
+                  setSubmitting(false);
+                  if (onSuccessful !== false) {
+                    onSuccessful();
+                  }
+
+                  onClose();
+                },
+                (apiError) => {
+                  setFieldError("title", apiError);
+                  setSubmitting(false);
+                },
+                {
+                  title: value.title,
+                  amount: value.amount,
+                }
+              );
+            }
           }}
         >
           <Form>
@@ -73,7 +97,7 @@ export const AddTransactionModal = ({
                 />
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
-                <Field component={SubmitButton} label={"Add new transaction"} />
+                <Field component={SubmitButton} label={"Save transaction"} />
               </Grid2>
             </Grid2>
           </Form>

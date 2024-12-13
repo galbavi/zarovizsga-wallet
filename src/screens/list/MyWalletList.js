@@ -13,7 +13,7 @@ export const MyWalletList = () => {
     const [walletsResult, loading, error, refreshWalletsList] = useApi(AXIOS_METHOD.GET, `/wallets`);
 
     const onAddNewWallet = () => {
-        showModal(MODALS.ADD_WALLET,  { OnSuccessful: refreshWalletsList });
+        showModal(MODALS.WALLET,  { onSuccessful: refreshWalletsList });
     }
 
     if (loading === false && error !== false) {

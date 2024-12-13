@@ -22,9 +22,17 @@ export const TransactionList = ({ walletId, refreshWallet }) => {
   };
 
   const onAddNewTransaction = () => {
-    showModal(MODALS.ADD_TRANSACTION, {
+    showModal(MODALS.TRANSACTION, {
       walletId: walletId,
-      OnSuccessful: refreshWalletAndTransactions,
+      onSuccessful: refreshWalletAndTransactions,
+    });
+  };
+
+  const onModifyTransaction = (transaction) => {
+    showModal(MODALS.TRANSACTION, {
+      walletId: walletId,
+      onSuccessful: refreshWalletAndTransactions,
+      transaction
     });
   };
 
@@ -70,6 +78,7 @@ export const TransactionList = ({ walletId, refreshWallet }) => {
           hasMore={hasMore}
           onLoadMore={onLoadMore}
           onDeleteTransaction={onDeleteTransaction}
+          onModifyTransaction={onModifyTransaction}
         />
       </Grid2>
     </Grid2>

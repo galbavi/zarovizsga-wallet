@@ -16,9 +16,10 @@ const validateDescription = (description) => {
   }
 };
 
-export const AddWalletModal = ({
+export const WalletModal = ({
   onClose,
-  OnSuccessful: onSuccessful = false,
+  onSuccessful = false,
+  wallet = false,
 }) => {
   return (
     <Dialog open={true} onClose={onClose}>
@@ -26,26 +27,47 @@ export const AddWalletModal = ({
       <DialogContent>
         <br />
         <Formik
-          initialValues={{}}
+          initialValues={wallet !== false ? wallet : {}}
           onSubmit={(value, { setFieldError, setSubmitting }) => {
             setSubmitting(true);
-            doApiCall(
-              AXIOS_METHOD.PUT,
-              "/wallet",
-              (_unusedNewWallet) => {
-                setSubmitting(false);
-                if (onSuccessful !== false) {
-                  onSuccessful();
-                }
+            if (wallet === false) {
+              doApiCall(
+                AXIOS_METHOD.PUT,
+                "/wallet",
+                (_unusedNewWallet) => {
+                  setSubmitting(false);
+                  if (onSuccessful !== false) {
+                    onSuccessful();
+                  }
 
-                onClose();
-              },
-              (apiError) => {
-                setFieldError("name", apiError);
-                setSubmitting(false);
-              },
-              value
-            );
+                  onClose();
+                },
+                (apiError) => {
+                  setFieldError("name", apiError);
+                  setSubmitting(false);
+                },
+                value
+              );
+            }
+            else {
+              doApiCall(
+                AXIOS_METHOD.PATCH,
+                `/wallet/${wallet.id}`,
+                (_unusedNewWallet) => {
+                  setSubmitting(false);
+                  if (onSuccessful !== false) {
+                    onSuccessful();
+                  }
+
+                  onClose();
+                },
+                (apiError) => {
+                  setFieldError("name", apiError);
+                  setSubmitting(false);
+                },
+                { description: value.description }
+              );
+            }
           }}
         >
           <Form>
@@ -57,6 +79,7 @@ export const AddWalletModal = ({
                   label="Name"
                   type="text"
                   fullWidth
+                  disabled={wallet !== false}
                   validate={validateName}
                 />
               </Grid2>
@@ -73,7 +96,7 @@ export const AddWalletModal = ({
                 />
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
-                <Field component={SubmitButton} label={"Add new wallet"} />
+                <Field component={SubmitButton} label={"Save wallet"} />
               </Grid2>
             </Grid2>
           </Form>
