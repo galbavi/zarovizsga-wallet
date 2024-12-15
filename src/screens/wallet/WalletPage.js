@@ -133,7 +133,7 @@ export const WalletPage = () => {
           <Typography variant="h5">
             Access
           </Typography>
-          <UserList users={walletResult?.access || []} onDelete={(userId) => {
+          <UserList createdBy={walletResult?.created_by} users={walletResult?.access || []} onDelete={(userId) => {
             showModal(MODALS.CONFIRM, {
               onConfirmed: () => {
                 deleteAccess(userId);

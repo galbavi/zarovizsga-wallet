@@ -27,7 +27,7 @@ export const WalletModal = ({
       <DialogContent>
         <br />
         <Formik
-          initialValues={wallet !== false ? wallet : {}}
+          initialValues={wallet !== false ? wallet : { name: "", description: "" }}
           onSubmit={(value, { setFieldError, setSubmitting }) => {
             setSubmitting(true);
             if (wallet === false) {

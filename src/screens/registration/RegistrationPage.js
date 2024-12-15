@@ -38,7 +38,7 @@ export const RegistrationPage = () => {
                 <Typography variant="h4" align="center" gutterBottom>
                     Registration
                 </Typography>
-                <Formik initialValues={{ legal: false }}
+                <Formik initialValues={{ name: "", password : "", legal: false }}
                     validationSchema={validationShema}
                     onSubmit={(value, { setFieldError, setSubmitting }) => {
                         setSubmitting(true);

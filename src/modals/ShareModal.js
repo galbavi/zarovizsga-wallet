@@ -18,7 +18,7 @@ export const ShareModal = ({ onClose, walletId, onSuccessful = false }) => {
       <DialogContent>
         <br />
         <Formik
-          initialValues={{}}
+          initialValues={{name: ""}}
           onSubmit={(value, { setFieldError, setSubmitting }) => {
             setSubmitting(true);
             doApiCall(

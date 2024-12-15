@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { MODALS, useModals } from "../../../hooks/useModal";
+import { useAuth } from "../../../hooks/useAuth";
 
 const formatterToDateString = new Intl.DateTimeFormat("hu-HU", {
   year: "numeric",
@@ -34,6 +35,7 @@ export const TransactionTable = ({
   onModifyTransaction,
 }) => {
   const { showModal } = useModals();
+  const { sessionUser } = useAuth();
 
   return (
     <Table stickyHeader>
@@ -70,30 +72,28 @@ export const TransactionTable = ({
               </TableCell>
               <TableCell>{transaction.amount}</TableCell>
               <TableCell align="right">
-                <IconButton size="small">
+                {transaction.created_by.id === sessionUser.id && <IconButton size="small" onClick={() => {
+                  onModifyTransaction(transaction);
+                }}>
                   <Edit
                     color={"primary"}
-                    onClick={() => {
-                      onModifyTransaction(transaction);
-                    }}
                   />
-                </IconButton>
+                </IconButton>}
               </TableCell>
               <TableCell align="right">
-                <IconButton size="small">
+                {transaction.created_by.id === sessionUser.id && <IconButton size="small" onClick={() => {
+                  showModal(MODALS.CONFIRM, {
+                    onConfirmed: () => {
+                      onDeleteTransaction(transaction.id);
+                    },
+                    message:
+                      "Are you sure you want to delete this transaction?",
+                  });
+                }}>
                   <Delete
                     color={"error"}
-                    onClick={() => {
-                      showModal(MODALS.CONFIRM, {
-                        onConfirmed: () => {
-                          onDeleteTransaction(transaction.id);
-                        },
-                        message:
-                          "Are you sure you want to delete this transaction?",
-                      });
-                    }}
                   />
-                </IconButton>
+                </IconButton>}
               </TableCell>
             </TableRow>
           ))}

@@ -17,7 +17,7 @@ export const LoginPage = () => {
                 <Typography variant="h4" align="center" gutterBottom>
                     Login
                 </Typography>
-                <Formik initialValues={{}} onSubmit={(value, { setFieldError, setSubmitting }) => {
+                <Formik initialValues={{name : "", password: ""}} onSubmit={(value, { setFieldError, setSubmitting }) => {
                     setSubmitting(true);
                     doApiCall(AXIOS_METHOD.POST, '/login', (data) => {
                         handleLoginResult(data);

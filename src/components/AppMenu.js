@@ -10,9 +10,6 @@ export const AppMenu = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <Grid2 spacing={2}>
-          <Grid2 size={{}}></Grid2>
-        </Grid2>
         <Typography
           variant="h4"
           component="div"
